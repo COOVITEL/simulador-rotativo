@@ -3,13 +3,13 @@ export interface State {
     typeAsociado: Partial<TypeAsociado>;
     idAsociado: number;
     escenario: number;
-    typeCredit: Partial<Rotativos>;
+    typeCredit: Partial<Rotativos>[];
     salario: string;
     desprendibles: string;
     descuentos: Datas;
     setDatas: (datas: Response) => void;
     setTypeAsociado: (newTypeAsociado: Partial<TypeAsociado>) => void;
-    setTypeCredit: (newTypeCredit: Partial<Rotativos>) => void;
+    setTypeCredit: (newTypeCredit: Partial<Rotativos>[]) => void;
     setIdAsociado: (id: number) => void;
     setEscenario: (escenario: number) => void;
     setSalario: (newSalario: string) => void;
@@ -18,11 +18,13 @@ export interface State {
   }
   
   export interface Datas {
-    score?: number
+    score: number
     pagaduria?: string; 
-    seguridad?: string;
-    aportes?: string;
-    capacidadDescuento?: string;
+    seguridad?: number;
+    aportes?: number;
+    capacidadDescuento?: number | undefined;
+    dateAfiliacion?: string;
+    scoreMinimo: number;
   }
 
   export interface ApiResponse {

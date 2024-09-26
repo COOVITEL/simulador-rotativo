@@ -12,6 +12,7 @@ function App() {
     const fetchDatas = async () => {
       const response = await getDatas()
       setDatas(response)
+      console.log(response)
     }
     fetchDatas()
   }, [])

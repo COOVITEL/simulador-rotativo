@@ -1,33 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useStore } from "../../store/store";
+import { capacidadDescuento } from "../../utils/capacidadDescuento";
 
 export default function Score() {
+  const [value, setValue] = useState<number>(0);
+  const { desprendibles, salario, setDescuentos, descuentos } = useStore();
+  const [controlValue, setControlValue] = useState(false);
 
-  const [value, setValue] = useState<number>(0) 
+  useEffect(() => {
+    setValue(0);
+  }, [salario, desprendibles]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value))
-  }
+    setControlValue(false);
+    let val = Number(event.target.value);
+    setValue(val);
+    if (val > 1100) {
+      setValue(1100);
+    }
+    if (!salario || !desprendibles) {
+      val = 0;
+      setControlValue(true);
+      setValue(val);
+    }
+    setDescuentos({
+      ...descuentos,
+      score: val,
+    });
+    if (descuentos.seguridad && descuentos.aportes) {
+      let capacidad = capacidadDescuento(
+        salario,
+        desprendibles,
+        descuentos.seguridad,
+        descuentos.aportes
+      );
+      if (capacidad < 0) {
+        capacidad = 0;
+      }
+      setDescuentos({
+        ...descuentos,
+        capacidadDescuento: capacidad,
+        score: val,
+      });
+    }
+  };
 
-    return (
-      <div className="input flex flex-col w-fit static">
-        <label
-          htmlFor="score"
-          className="text-blue-900 text-md font-semibold relative top-2 ml-[7px] px-[10px] bg-white w-fit"
-        >
-          Puntaje Score
-        </label>
-        <input
-          required
-          value={value != 0 ? value : ""}
-          onChange={handleChange}
-          id="score"
-          type="number"
-          placeholder="Score"
-          name="score"
-          className="border-blue-300 input px-[10px] py-[5px] text-lg bg-white border-2 rounded-[5px] w-[400px] focus:outline-none placeholder:text-black/45
+  return (
+    <div className="input flex flex-row justify-between items-center">
+      <label
+        htmlFor="score"
+        className="text-blue-900 text-md font-semibold bg-white w-fit"
+      >
+        Puntaje Score
+      </label>
+      <input
+        required
+        value={value != 0 ? value : ""}
+        onChange={handleChange}
+        id="score"
+        type="number"
+        placeholder="Score"
+        name="score"
+        min={descuentos?.scoreMinimo}
+        className="border-blue-300 input px-[10px] py-[5px] text-lg bg-white border-2 rounded-[5px] w-[350px] focus:outline-none placeholder:text-black/45
           hover:shadow-xl transition-all duration-300 focus:border-blue-700 text-center"
-        />
-      </div>
-    );
-  }
-  
+      />
+      {controlValue && (
+        <span className="text-red-700 font-semibold">
+          Por favor ingrese Salario y Descuentos
+        </span>
+      )}
+      {descuentos.scoreMinimo && value < descuentos.scoreMinimo && descuentos.scoreMinimo != 1100 &&<span className="text-red-500 underline">El score minimo es de {descuentos.scoreMinimo}</span>}
+    </div>
+  );
+}

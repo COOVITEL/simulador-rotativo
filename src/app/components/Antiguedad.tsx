@@ -24,11 +24,13 @@ export default function Antiguedad() {
   }
 
   return (
-    <div className="input flex flex-col w-fit static inside">
+    <div className="flex flex-col inside">
+      <div className="flex flex-row justify-between items-center">
+
       <label
         htmlFor="input"
-        className="text-blue-900 text-md font-semibold relative top-2 ml-[7px] px-[10px] bg-white w-fit"
-      >
+        className="text-blue-900 text-md font-semibold bg-white w-fit"
+        >
         Antiguedad Laboral
       </label>
       <input
@@ -38,9 +40,10 @@ export default function Antiguedad() {
         type="date"
         name="input"
         onChange={handleTime}
-        className="border-blue-300 input px-[10px] py-[11px] text-sm bg-white border-2 rounded-[5px] w-[300px] focus:outline-none placeholder:text-black/45 hover:shadow-xl
-        transition-all duration-300 focus:border-blue-700"
-      />
+        className="border-blue-300 input px-[10px] py-[5px] text-lg bg-white border-2 rounded-[5px] w-[350px] focus:outline-none placeholder:text-black/45 hover:shadow-xl
+        transition-all duration-300 focus:border-blue-700 text-center"
+        />
+      </div>
       {!control&&<span>{time}</span>}
       {control&&<span className="text-red-500 font-semibold text-sm">La antiguedad laboral debe ser mayor o igual a 3 meses</span>}
     </div>

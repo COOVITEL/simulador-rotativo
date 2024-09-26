@@ -1,33 +1,23 @@
-import { useEffect, useState } from "react"
 import { useStore } from "../../store/store"
-import SeguridadSocial from "../../utils/seguridadSocial"
+import { setValue } from "../../utils/setValue"
 
 export default function Descuentos() {
 
-    const { setDescuentos, descuentos, typeAsociado, salario } = useStore()
-    const [seguridad, setSeguridad] = useState<number>()
-
-    useEffect(() => {
-        if (typeAsociado.name && descuentos.pagaduria) {
-            setSeguridad(SeguridadSocial(salario, typeAsociado.name, descuentos.pagaduria))
-        }
-    }, [descuentos.score])
-
-
+    const { descuentos } = useStore()
 
     return (
-        <div className="flex flex-row gap-5">
-            <div>
-                <span>Descuentos de Seguridad Social</span>
-                <span>$ {seguridad}</span>
+        <div className="flex flex-col w-[78%] h-[200px] rounded-md px-2 border-[1px] border-gray-500 mt-6">
+            <div className="flex flex-row justify-between">
+                <span className="font-semibold text-lg ">Descuentos de Seguridad Social</span>
+                <span className="text-xl text-black">$ {descuentos.seguridad ? setValue(descuentos.seguridad.toString()) : 0}</span>
             </div>
-            <div>
-                <span>Aportes Coovitel</span>
-                <span>$</span>
+            <div className="flex flex-row justify-between">
+                <span className="font-semibold text-lg ">Aportes Coovitel</span>
+                <span className="text-xl text-black">$ {descuentos.aportes ? setValue(descuentos.aportes.toString()) : 0 }</span>
             </div>
-            <div>
-                <span>Capacidad de Descuento (Nómina)</span>
-                <span></span>
+            <div className="flex flex-row justify-between">
+                <span className="font-semibold text-lg ">Capacidad de Descuento (Nómina)</span>
+                <span className="text-xl text-black">$ {descuentos.capacidadDescuento ? setValue(descuentos.capacidadDescuento.toString()) : 0}</span>
             </div>
         </div>
     )

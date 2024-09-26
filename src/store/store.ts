@@ -6,15 +6,17 @@ export const useStore = create<State>((set) => ({
   typeAsociado: {},
   idAsociado: 0,
   escenario: 0,
-  typeCredit: {},
+  typeCredit: [],
   salario: "",
   desprendibles: "",
   descuentos: {
     score: 0,
-    seguridad: "",
-    aportes: "",
-    capacidadDescuento: "",
-    pagaduria: ""
+    seguridad: 0,
+    aportes: 0,
+    capacidadDescuento: undefined,
+    pagaduria: "",
+    dateAfiliacion: "",
+    scoreMinimo: 1100,
   },
   setDatas: (newDatas: ApiResponse) => set(() => ({
     datas: newDatas
@@ -22,8 +24,8 @@ export const useStore = create<State>((set) => ({
   setTypeAsociado: (newTypeAsociado: Partial<TypeAsociado>) => set((state) => ({
     typeAsociado: { ...state.typeAsociado, ...newTypeAsociado }
   })),
-  setTypeCredit: (newTypeCredit: Partial<Rotativos>) => set((state) => ({
-    typeCredit: { ...state.typeCredit, ...newTypeCredit }
+  setTypeCredit: (newTypeCredit: Partial<Rotativos>[]) => set(() => ({
+    typeCredit: newTypeCredit
   })),
   setIdAsociado: (id: number) => set(() => ({
     idAsociado: id
