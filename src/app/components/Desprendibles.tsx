@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { setValue } from "../../utils/setValue";
-import { useStore } from "../../store/store";
+import { useStore } from "../../store/datas/store";
 import { replaceNum } from "../../utils/repalceNum";
 
 export default function Desprendibles() {
@@ -47,7 +47,7 @@ export default function Desprendibles() {
     <div className="input flex flex-row justify-between items-center">
       <label
         htmlFor="input"
-        className="text-blue-900 text-md font-semibold bg-white w-fit"
+        className="text-blue-900 text-left text-md font-semibold bg-white"
       >
         Valor Descuentos Desprendibles
       </label>
@@ -55,7 +55,7 @@ export default function Desprendibles() {
         required
         value={currValue}
         onChange={handleChange}
-        id="salario"
+        id="desprendibles"
         type="text"
         placeholder="Ingrese valor"
         name="input"

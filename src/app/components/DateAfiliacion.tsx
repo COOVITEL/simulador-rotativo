@@ -1,5 +1,5 @@
 import React from "react";
-import { useStore } from "../../store/store";
+import { useStore } from "../../store/datas/store";
 
 export default function dateAfiliacion() {
 

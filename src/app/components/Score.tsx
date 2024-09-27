@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "../../store/store";
+import { useStore } from "../../store/datas/store";
 import { capacidadDescuento } from "../../utils/capacidadDescuento";
+import { Rotativos } from "../../store/datas/types";
+import { montoMax } from "../../utils/cupoMaximo";
 
 export default function Score() {
   const [value, setValue] = useState<number>(0);
-  const { desprendibles, salario, setDescuentos, descuentos } = useStore();
+  const { desprendibles, salario, setDescuentos, descuentos, typeCredit, setTypeCredit } = useStore();
   const [controlValue, setControlValue] = useState(false);
 
   useEffect(() => {
@@ -42,6 +44,22 @@ export default function Score() {
         capacidadDescuento: capacidad,
         score: val,
       });
+    }
+    const credit = typeCredit?.filter(credito => {
+      if (credito.scoreMin) {
+        const minScore = credito.scoreMin
+        const maxScore = credito.scoreMax ? credito.scoreMax : 1100
+        return val >= minScore && val <= maxScore
+      }
+    })
+    if (credit.length > 0 && descuentos.capacidadDescuento) {
+      const filterCredito = credit[0] as Rotativos
+      const montoMaximo = montoMax(descuentos.capacidadDescuento, filterCredito.NMV, filterCredito.plazo)
+      setDescuentos({
+        ...descuentos,
+        credito: filterCredito,
+        montoMaximo: montoMaximo
+      })
     }
   };
 

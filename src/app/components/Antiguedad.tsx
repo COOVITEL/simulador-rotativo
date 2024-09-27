@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { antiguedad } from "../../utils/antiguedad";
-import { useStore } from "../../store/store";
+import { useStore } from "../../store/datas/store";
 
 export default function Antiguedad() {
   const { typeAsociado } = useStore()
@@ -44,7 +44,7 @@ export default function Antiguedad() {
         transition-all duration-300 focus:border-blue-700 text-center"
         />
       </div>
-      {!control&&<span>{time}</span>}
+      {/* {!control&&<span>{time}</span>} */}
       {control&&<span className="text-red-500 font-semibold text-sm">La antiguedad laboral debe ser mayor o igual a 3 meses</span>}
     </div>
   );

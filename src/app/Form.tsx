@@ -8,15 +8,23 @@ import Salario from "./components/Salario";
 import Score from "./components/Score";
 import DateAfiliacion from "./components/DateAfiliacion";
 import Descuentos from "./descuentos/Descuentos";
-import { useStore } from "../store/store";
+import { useStore } from "../store/datas/store";
 import React from "react";
+import { useDialog } from "../store/ui/store";
 
 export default function FormSimulacion() {
 
-  const { descuentos } = useStore()
+  const { descuentos, setDescuentos } = useStore()
+  const { setState } = useDialog()
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setState(true)
+    const fields = Object.fromEntries(new window.FormData(event.target))
+    setDescuentos({
+      ...descuentos,
+      formulario: fields
+    })
   }
 
   return (
@@ -32,19 +40,20 @@ export default function FormSimulacion() {
           <Desprendibles />
           <Score />
       </div>
-      <div className="w-[50%] flex justify-center">
+      <div className="h-[450px] w-[2px] rounded-full bg-slate-400"></div>
+      <div className="w-[50%] flex flex-col justify-start items-center">
 
         <Descuentos />
       {
         descuentos.capacidadDescuento == 0
         &&
-        <span>No tiene capacidad de Pago</span>
+        <span className="mt-5 text-red-600 font-bold text-2xl">No tiene capacidad de Pago</span>
       }
       {
-        (descuentos.capacidadDescuento != 0 && descuentos.capacidadDescuento != undefined)
+        (descuentos.montoMaximo > 0)
         &&
         <button
-        className="bg-blue-800 text-white rounded-xl w-[200px]"
+        className="bg-blue-800 text-white text-xl py-2 rounded-xl w-[200px] mt-10 hover:bg-blue-600 hover:scale-95 transition-all duration-300 hover:shadow-6xl hover:shadow-coloblue"
         >
           Calcular
         </button>

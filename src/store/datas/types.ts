@@ -25,6 +25,13 @@ export interface State {
     capacidadDescuento?: number | undefined;
     dateAfiliacion?: string;
     scoreMinimo: number;
+    riesgo: string;
+    monto: number;
+    plazo: number;
+    tasa: number;
+    credito: Rotativos | undefined;
+    montoMaximo: number;
+    formulario: {}
   }
 
   export interface ApiResponse {

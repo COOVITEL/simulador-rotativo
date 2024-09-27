@@ -1,4 +1,4 @@
-import { useStore } from "../../store/store";
+import { useStore } from "../../store/datas/store";
 import React, { useState } from "react";
 
 export default function Pagaduria() {

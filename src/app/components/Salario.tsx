@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { setValue } from "../../utils/setValue";
-import { useStore } from "../../store/store";
+import { useStore } from "../../store/datas/store";
 import seguridadSocial from "../../utils/seguridadSocial";
 import { ahorroMensual } from "../../utils/aportes";
 
