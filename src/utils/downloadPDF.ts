@@ -3,8 +3,9 @@ import { Datas, TypeAsociado } from "../store/datas/types";
 import { setValue } from "./setValue";
 import { pagoMensual } from "./cuota";
 import { convertirNumeroATexto } from "./valorTexto";
+import { PDFDocument } from "pdf-lib";
 
-export function downloadPDF(datas: Datas, typeAsociado: Partial<TypeAsociado>) {
+export async function downloadPDF(datas: Datas, typeAsociado: Partial<TypeAsociado>) {
     try {
         const doc = new jsPDF()
 
@@ -198,7 +199,71 @@ export function downloadPDF(datas: Datas, typeAsociado: Partial<TypeAsociado>) {
 
 
         if (typeAsociado.name == "Pensionado" && datas.formulario?.pagaduria.toLowerCase() == "colpensiones") {
-            console.log("Colpensiones")
+            const url = '/files/formato.pdf';  // Ruta del PDF a cargar
+            const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
+            
+            // Cargar el PDF existente con pdf-lib
+            const pdfExist = await PDFDocument.load(existingPdfBytes);
+
+            // Extraer el PDF creado con jsPDF como Blob
+            const pdfJsPdfBlob = doc.output("blob");
+            const jsPdfBytes = await pdfJsPdfBlob.arrayBuffer();
+
+            // Cargar el PDF generado con jsPDF en pdf-lib
+            const pdfJsDoc = await PDFDocument.load(jsPdfBytes);
+
+            // Fusionar las páginas del PDF de jsPDF con el PDF editado con pdf-lib
+            const mergedPdf = await PDFDocument.create();
+
+            // Añadir las páginas del PDF de jsPDF
+            const jsPdfPages = await mergedPdf.copyPages(pdfJsDoc, pdfJsDoc.getPageIndices());
+            jsPdfPages.forEach((page) => mergedPdf.addPage(page));
+
+            // Añadir las páginas del PDF de Colpensiones
+            const colpensionesPages = await mergedPdf.copyPages(pdfExist, pdfExist.getPageIndices());
+            colpensionesPages.forEach((page) => mergedPdf.addPage(page));
+
+            // Editar el PDF de Colpensiones (si es necesario)
+            const pageEdit = mergedPdf.getPages()
+            const secondPage = pageEdit[1]
+            
+            const now = new Date()
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+
+            secondPage.drawText(`${day}  /  ${month}  /  ${year}`, {x: 466, y: 638, size: 13})
+
+            secondPage.drawText(datas.formulario.cedula, { x: 285, y: 502, size: 12 })
+
+            secondPage.drawText("X", { x: 34, y: 508, size: 12 })
+
+            if (datas.credito) {
+                const valorTotal = pagoMensual(datas.monto, datas.credito?.NMV, datas.credito?.plazo) * datas.credito.plazo
+                secondPage.drawText(`${setValue(valorTotal.toString())}`, {x:54, y: 282, size: 11})
+
+                const valorTotalText = convertirNumeroATexto(valorTotal)
+                if (valorTotalText.length > 52) {
+                    secondPage.drawText(valorTotalText.substring(0, 52), {x: 169, y: 288, size: 8})
+                    secondPage.drawText(valorTotalText.substring(52), {x: 169, y: 280, size: 8})
+                } else {
+                    secondPage.drawText(valorTotalText, {x: 169, y: 288, size: 8})
+                }
+                secondPage.drawText(datas.credito.plazo.toString(), {x: 50, y: 258, size: 9})
+                const valorCuota = pagoMensual(datas.monto, datas.credito?.NMV, datas.credito?.plazo)
+                secondPage.drawText(setValue(valorCuota.toString()), {x: 149, y: 258, size: 9})
+                secondPage.drawText(convertirNumeroATexto(valorCuota), {x: 220, y: 258, size: 8})
+            }
+
+            // Guardar el PDF fusionado
+            const mergedPdfBytes = await mergedPdf.save();
+
+            // Descargar el PDF fusionado
+            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'simulacion_rotativo_colpensiones.pdf';
+            link.click();
         } else {
 
             // SEGUNDA PAGINA
@@ -365,10 +430,8 @@ export function downloadPDF(datas: Datas, typeAsociado: Partial<TypeAsociado>) {
             doc.line(151, 260, 186, 260)
 
             doc.text("Pagina 2/2", 100, 290)
+            doc.save('simulacion-rotativo.pdf')
         }
-
-
-        doc.save('simulacion-rotativo.pdf')
     } catch (error) {
         console.log(error)
     }

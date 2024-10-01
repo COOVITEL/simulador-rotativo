@@ -23,7 +23,7 @@ export default function FormSimulacion() {
     const fields = Object.fromEntries(new window.FormData(event.target))
     setDescuentos({
       ...descuentos,
-      formulario: fields
+      formulario: fields as any
     })
   }
 
