@@ -6,7 +6,7 @@ import { montoMax } from "../../utils/cupoMaximo";
 
 export default function Score() {
   const [value, setValue] = useState<number>(0);
-  const { desprendibles, salario, setDescuentos, descuentos, typeCredit, setTypeCredit } = useStore();
+  const { desprendibles, salario, setDescuentos, descuentos, typeCredit } = useStore();
   const [controlValue, setControlValue] = useState(false);
 
   useEffect(() => {

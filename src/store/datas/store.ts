@@ -23,7 +23,7 @@ export const useStore = create<State>((set) => ({
     tasa: 0,
     credito: undefined,
     montoMaximo: 0,
-    formulario: {}
+    formulario: undefined
   },
   setDatas: (newDatas: ApiResponse) => set(() => ({
     datas: newDatas

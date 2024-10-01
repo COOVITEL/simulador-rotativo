@@ -12,7 +12,7 @@ export default function Name() {
         id="name"
         type="text"
         placeholder="Nombre de Asociado"
-        name="input"
+        name="name"
         className="border-blue-300 input px-[10px] py-[5px] text-lg bg-white border-2 rounded-[5px] w-[350px] focus:outline-none placeholder:text-black/45 hover:shadow-xl
         transition-all duration-300 focus:border-blue-700 text-center"
       />

@@ -31,7 +31,21 @@ export interface State {
     tasa: number;
     credito: Rotativos | undefined;
     montoMaximo: number;
-    formulario: {}
+    formulario: Formulario | undefined
+  }
+
+  export interface Formulario {
+    name: string;
+    cedula: string;
+    antiguedad: string;
+    afiliacion: string;
+    dateAfiliacion: string;
+    desprendibles: string;
+    salario: string;
+    monto: string;
+    pagaduria: string;
+    score: string
+    years: string
   }
 
   export interface ApiResponse {

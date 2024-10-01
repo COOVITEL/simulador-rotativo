@@ -8,7 +8,7 @@ export default function Resultados() {
   const { descuentos, typeAsociado } = useStore()
 
   const handleDownload = () => {
-    downloadPDF(descuentos)
+    downloadPDF(descuentos, typeAsociado)
   }
 
   return (
@@ -38,7 +38,7 @@ export default function Resultados() {
         </span>
       </div>
       <div className="flex flex-row justify-between bg-slate-200/60 px-6 py-1 border-[1px] rounded-lg border-slate-700 w-full">
-        <span className="font-bold text-lg text-blue-900/90 ">Garantia:</span>
+        <span className="font-bold text-lg text-blue-900/90 ">Requisitos:</span>
         <span className="text-xl font-semibold border-l-2 border-gray-600 w-[320px] text-black text-center">
           {typeAsociado.requisitos ? typeAsociado.requisitos : 'Firma'}
         </span>

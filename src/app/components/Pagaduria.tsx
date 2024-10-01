@@ -8,9 +8,8 @@ export default function Pagaduria() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)
-    const { pagaduria, ...rest} = descuentos
     setDescuentos({
-      ...rest,
+      ...descuentos,
       pagaduria: event.target.value,
     })
   }
@@ -30,7 +29,7 @@ export default function Pagaduria() {
         value={value}
         onChange={handleChange}
         placeholder="Nombre de Pagaduria"
-        name="input"
+        name="pagaduria"
         className="border-blue-300 input px-[10px] py-[5px] w-[350px] text-lg bg-white border-2 rounded-[5px] text-center focus:outline-none placeholder:text-black/45 hover:shadow-xl transition-all duration-300 focus:border-blue-700"
       />
     </div>

@@ -36,7 +36,7 @@ export default function Monto() {
         id="monto"
         type="text"
         placeholder="Ingrese el monto"
-        name="input"
+        name="monto"
         className="border-blue-300 input px-[10px] py-[5px] text-lg bg-white border-2 rounded-[5px] w-[350px] focus:outline-none placeholder:text-black/45 hover:shadow-xl
           transition-all duration-300 focus:border-blue-700 text-center"
       />

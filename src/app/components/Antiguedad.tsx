@@ -6,11 +6,11 @@ export default function Antiguedad() {
   const { typeAsociado } = useStore()
   const [control, setControl] = useState<boolean>();
   const [value, setValue] = useState("")
-  const [time, setTime] = useState("")
+  // const [time, setTime] = useState("")
 
   const handleTime = (event: React.ChangeEvent<HTMLInputElement>) => {
     const days = antiguedad(event.target.value);
-    setTime(days.message)
+    // setTime(days.message)
     setControl(false)
     setValue(event.target.value)
     if (days.number < 3) {
@@ -38,7 +38,7 @@ export default function Antiguedad() {
         value={value}
         id="antiguedad"
         type="date"
-        name="input"
+        name="antiguedad"
         onChange={handleTime}
         className="border-blue-300 input px-[10px] py-[5px] text-lg bg-white border-2 rounded-[5px] w-[350px] focus:outline-none placeholder:text-black/45 hover:shadow-xl
         transition-all duration-300 focus:border-blue-700 text-center"
